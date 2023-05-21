@@ -1,7 +1,9 @@
 import Foundation
 
 extension SimpleConfigurationRepository.Settings {
-  func build() -> any ConfigurationRepository<M> {
+  /// Builds and returns a configuration repository based on the current settings.
+  /// - Returns: An instance of `ConfigurationRepository` that corresponds to the settings.
+  internal func build() -> any ConfigurationRepository<M> {
     ConfigurationRepositoryImpl(
       fallback: fallback,
       local: build(),
@@ -9,6 +11,8 @@ extension SimpleConfigurationRepository.Settings {
     )
   }
   
+  /// Builds and returns a local data source based on the current mode.
+  /// - Returns: An instance of `LocalDataSource` corresponding to the mode.
   private func build() -> any LocalDataSource<M> {
     switch mode {
     case .fileManager:
@@ -18,6 +22,8 @@ extension SimpleConfigurationRepository.Settings {
     }
   }
   
+  /// Builds and returns a remote data source using the specified URL location.
+  /// - Returns: An instance of `RemoteDatasource` with the provided URL.
   private func build() -> any RemoteDatasource<M> {
     WebDataSource(url: location)
   }
@@ -36,6 +42,11 @@ protocol RemoteDatasource<Configuration> where Configuration: ConfigurationModel
 }
 
 extension ConfigurationModel {
+  /// Returns a string representing the exact model identifier.
+  ///
+  /// The exact model identifier is constructed by appending the identifier and version of the configuration model.
+  ///
+  /// - Returns: A string in the format "identifier_version".
   static var exactModelIdentifier: String {
     "\(identifier)_\(version)"
   }
