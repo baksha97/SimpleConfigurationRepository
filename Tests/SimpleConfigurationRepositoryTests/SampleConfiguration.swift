@@ -7,4 +7,10 @@ struct SampleConfiguration: ConfigurationModel {
   
   static var identifier: String = "SampleConfiguration"
   static var version: Int = 1
+  
+  static let stub: Self = .init()
+  
+  var data: Data {
+    try! JSONEncoder().encode(self)
+  }
 }
