@@ -1,8 +1,21 @@
 import Foundation
 
-extension ConfigurationModel {
-  static var exactModelIdentifier: String {
-    "\(identifier)_\(version)"
+extension SimpleConfigurationRepository.Settings {
+  func build() -> any ConfigurationRepository<M> {
+    ConfigurationRepositoryImpl(
+      fallback: fallback,
+      local: resolve(local: local),
+      remote: WebDataSource(url: remote)
+    )
+  }
+  
+  private func resolve<M: ConfigurationModel>(local: Storage) -> any LocalDataSource<M> {
+    switch local {
+    case .filestorage:
+        return FileDataSource<M>()
+    case .userDefaults(let userDefaults):
+      return DefaultsDataSource<M>(storage: userDefaults)
+    }
   }
 }
 
@@ -18,21 +31,8 @@ protocol RemoteDatasource<Configuration> where Configuration: ConfigurationModel
   func fetch() async throws -> Configuration
 }
 
-extension SimpleConfigurationRepository.Settings {
-  func build() -> any ConfigurationRepository<M> {
-    ConfigurationRepositoryImpl(
-      fallback: fallback,
-      local: resolve(local: local),
-      remote: WebDataSource(url: remote)
-    )
-  }
-  
-  private func resolve<M: ConfigurationModel>(local: LocalDataSourceType) -> any LocalDataSource<M> {
-    switch local {
-    case .filestorage:
-        return FileDataSource<M>()
-    case .userDefaults(let userDefaults):
-      return DefaultsDataSource<M>(storage: userDefaults)
-    }
+extension ConfigurationModel {
+  static var exactModelIdentifier: String {
+    "\(identifier)_\(version)"
   }
 }

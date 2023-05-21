@@ -11,10 +11,10 @@ public enum SimpleConfigurationRepository {
   
   public struct Settings<M: ConfigurationModel> {
     public let fallback: M
-    public let local: LocalDataSourceType
+    public let local: Storage
     public let remote: URL
     
-    public enum LocalDataSourceType {
+    public enum Storage {
       case filestorage
       case userDefaults(UserDefaults)
     }
@@ -25,10 +25,10 @@ public enum SimpleConfigurationRepository {
     case emptyCatch(underlying: Error?)
   }
   
-  public enum Result<Configuration: ConfigurationModel> {
-    case local(Configuration)
-    case remote(Configuration, silentPersistenceFailure: Error?)
-    case fallback(Configuration, cause: Error)
+  public enum Result<M: ConfigurationModel> {
+    case local(M)
+    case remote(M, silentPersistenceFailure: Error?)
+    case fallback(M, cause: Error)
   }
 }
 
