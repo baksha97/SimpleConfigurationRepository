@@ -47,7 +47,7 @@ struct MyConfigurationModel: ConfigurationModel {
 let settings = SimpleConfigurationRepository.Settings(
     fallback: MyConfigurationModel(version: 1),
     mode: .fileManager,
-    location: URL(string: "www.mlb.com/config.json")!
+    location: URL(string: "www.domain.com/config.json")!
 )
 
 // Build the configuration repository
