@@ -29,6 +29,17 @@ public enum SimpleConfigurationRepository {
     case local(M)
     case remote(M, silentPersistenceFailure: Error?)
     case fallback(M, cause: Error)
+    
+    var model: M {
+      switch self {
+      case .local(let value):
+        return value
+      case .remote(let value, _):
+        return value
+      case .fallback(let value, _):
+        return value
+      }
+    }
   }
 }
 
