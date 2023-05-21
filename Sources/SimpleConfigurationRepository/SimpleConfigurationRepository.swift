@@ -23,8 +23,8 @@ public enum ConfigurationResult<Configuration: ConfigurationModel> {
   case fallback(Configuration, cause: Error)
 }
 
-public protocol ConfigurationRepository {
-  associatedtype Configuration: ConfigurationModel
+public protocol ConfigurationRepository<Configuration> where Configuration: ConfigurationModel {
+  associatedtype Configuration//: ConfigurationModel
   
   var fallback: Configuration { get }
   var current: ConfigurationResult<Configuration> { get }
@@ -32,28 +32,103 @@ public protocol ConfigurationRepository {
   func update() async throws -> ConfigurationResult<Configuration>
 }
 
-enum Settings {
+struct Settings {
+  let fallback: ConfigurationModel
+  let local: LocalDataSourceType
+  let remote: URL
+  
   enum LocalDataSourceType {
     case filestorage
     case userDefaults(UserDefaults)
   }
 }
 
-internal struct Builder<
-  Model: ConfigurationModel,
-  Repository: ConfigurationRepository> where Repository.Configuration == Model {
+struct Config: ConfigurationModel {
+  var version: Int = 1
   
-  let fallback: Model
-  let remoteLocation: URL
-  let localSettings: Settings.LocalDataSourceType
+  static var identifier: String = "ID"
+  
+  static var version: Int = 1
+  var id: String { "Config" }
+}
 
-  
-  func build() -> Repository {
-    ConfigurationRepositoryImpl<Model, RemoteConfigFetcher<Model>, FileConfigCacheable<Model>>(
-      fallback: fallback,
-      local: FileConfigCacheable<Model>(),
-      remote: RemoteConfigFetcher<Model>(url: remoteLocation)
+//internal struct Builder<
+//  Model: ConfigurationModel
+//> {
+//
+//  func build() -> some ConfigurationRepository<Model> {
+//    ConfigurationRepositoryImpl(fallback: fallback,
+//                                local: UserDefaultsConfigCacheable<Model>(storage: .standard),
+//                                remote: RemoteConfigFetcher<Model>(url: remoteLocation))
+//  }
+//}
+
+enum SimpleConfigurationRepository {
+  func build<M>(
+    settings: Settings
+  ) -> some ConfigurationRepository<M> {
+//    func resolveLocal()
+    ConfigurationRepositoryImpl(
+      fallback: settings.fallback,
+      local: settings.local,
+      remote: settings.remote
     )
   }
-  
 }
+
+//internal struct ConfigurationRepositoryBuilder<
+//  Model: ConfigurationModel,
+//  RemoteDataSource: ConfigurationRemoteDatasource,
+//  LocalDataSource: ConfigurationLocalDataSource,
+//  LocalFileStorage: FileConfigCacheable<Model>,
+//  LocalUserDefaultsStorage: UserDefaultsConfigCacheable<Model>,
+//  Repository: ConfigurationRepository
+//> where RemoteDataSource.Configuration == Model, LocalDataSource.Configuration == Model, Repository.Configuration == Model, LocalFileStorage == LocalDataSource {
+//  private var fallback: Model?
+//  private var localDataSource: LocalDataSource?
+//  private var remoteDataSource: RemoteDataSource?
+//
+//  public func withFileStorage() -> Self {
+//    var builder = self
+//    let x: LocalFileStorage = FileConfigCacheable()
+//    builder.localDataSource = x
+//    return builder
+//  }
+//
+//  public init() {}
+//
+//  public func withFallback(_ fallback: Model) -> Self {
+//    var builder = self
+//    builder.fallback = fallback
+//    return builder
+//  }
+//
+//  public func withLocalDataSource(_ localDataSource: LocalDataSource) -> Self {
+//    var builder = self
+//    builder.localDataSource = localDataSource
+//    return builder
+//  }
+//
+//
+//
+//
+//  public func withRemoteDataSource(_ remoteDataSource: RemoteDataSource) -> Self {
+//    var builder = self
+//    builder.remoteDataSource = remoteDataSource
+//    return builder
+//  }
+//
+//  public func build() -> ConfigurationRepositoryImpl<Model, RemoteDataSource, LocalDataSource>? {
+//    guard let fallback = fallback,
+//          let localDataSource = localDataSource,
+//          let remoteDataSource = remoteDataSource else {
+//      return nil
+//    }
+//
+//    return ConfigurationRepositoryImpl<Model, RemoteDataSource, LocalDataSource>(
+//      fallback: fallback,
+//      local: localDataSource,
+//      remote: remoteDataSource
+//    )
+//  }
+//}
