@@ -19,19 +19,13 @@ class DefaultsDataSourceTests: XCTestCase {
   }
   
   func testPersistAndRetrieveConfiguration() throws {
-    // Given
     let initialConfig = SampleConfiguration()
-    
-    // When
     try dataSource.persist(initialConfig)
-    
-    // Then
     let retrievedConfig = try dataSource.cache
     XCTAssertEqual(retrievedConfig, initialConfig, "Retrieved configuration should match the initial configuration")
   }
   
   func testRetrieveConfigurationWhenEmpty() {
-    // When/Then
     XCTAssertThrowsError(try dataSource.cache,
                          "Retrieving configuration when empty should throw an error") { error in
       guard case SimpleConfigurationRepository.DataSourceError.emptyCatch = error else {

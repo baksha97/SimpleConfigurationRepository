@@ -25,12 +25,15 @@ class ConfigurationRepositoryImpl<Model: ConfigurationModel>: ConfigurationRepos
   
   func update() async throws -> SimpleConfigurationRepository.Result<Model> {
     let update = try await remote.fetch()
-    var persistenceError: Error? = nil
+    return .remote(update, silentPersistenceFailure: silentPersist(update))
+  }
+  
+  private func silentPersist(_ model: Model) -> Error? {
     do {
-      try local.persist(update)
+      try local.persist(model)
+      return nil
     } catch {
-      persistenceError = error
+      return error
     }
-    return .remote(update, silentPersistenceFailure: persistenceError)
   }
 }
