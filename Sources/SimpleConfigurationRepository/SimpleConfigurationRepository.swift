@@ -11,11 +11,11 @@ public enum SimpleConfigurationRepository {
   
   public struct Settings<M: ConfigurationModel> {
     public let fallback: M
-    public let local: Storage
-    public let remote: URL
+    public let mode: Storage
+    public let location: URL
     
     public enum Storage {
-      case filestorage
+      case fileManager
       case userDefaults(UserDefaults)
     }
   }

@@ -6,7 +6,7 @@ class ConfigurationRepositoryImpl<Model: ConfigurationModel>: ConfigurationRepos
   
   var current: SimpleConfigurationRepository.Result<Model> {
     do {
-      return try .local(local.fetch())
+      return try .local(local.cache)
     } catch {
       return .fallback(fallback, cause: error)
     }

@@ -23,10 +23,12 @@ class FileDataSource<Configuration>: LocalDataSource where Configuration: Config
     }
   }
   
-  func fetch() throws -> Configuration {
-    try JSONDecoder().decode(Configuration.self, from: try cachedConfigurationData)
+  var cache: Configuration  {
+    get throws {
+      try JSONDecoder().decode(Configuration.self, from: cachedConfigurationData)
+    }
   }
-
+  
   func persist(_ config: Configuration) throws {
     let encoder = JSONEncoder()
     let data = try encoder.encode(config)

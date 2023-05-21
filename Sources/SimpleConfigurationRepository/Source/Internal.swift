@@ -4,24 +4,28 @@ extension SimpleConfigurationRepository.Settings {
   func build() -> any ConfigurationRepository<M> {
     ConfigurationRepositoryImpl(
       fallback: fallback,
-      local: resolve(local: local),
-      remote: WebDataSource(url: remote)
+      local: build(),
+      remote: build()
     )
   }
   
-  private func resolve<M: ConfigurationModel>(local: Storage) -> any LocalDataSource<M> {
-    switch local {
-    case .filestorage:
-        return FileDataSource<M>()
+  private func build() -> any LocalDataSource<M> {
+    switch mode {
+    case .fileManager:
+      return FileDataSource()
     case .userDefaults(let userDefaults):
-      return DefaultsDataSource<M>(storage: userDefaults)
+      return DefaultsDataSource(storage: userDefaults)
     }
+  }
+  
+  private func build() -> any RemoteDatasource<M> {
+    WebDataSource(url: location)
   }
 }
 
 protocol LocalDataSource<Configuration> where Configuration: ConfigurationModel {
   associatedtype Configuration
-  func fetch() throws -> Configuration
+  var cache: Configuration { get throws }
   func persist(_ config: Configuration) throws
 }
 
