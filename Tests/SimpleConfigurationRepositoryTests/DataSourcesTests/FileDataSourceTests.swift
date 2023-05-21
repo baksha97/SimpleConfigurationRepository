@@ -26,13 +26,14 @@ class FileDataSourceTests: XCTestCase {
     let dataSource = FileDataSource<SampleConfiguration>()
     XCTAssertThrowsError(try dataSource.cache,
                          "Retrieving configuration when empty should throw an error") { error in
-      guard case SimpleConfigurationRepository.DataSourceError.emptyCatch(let underlying) = error, let underlyingNSError = underlying as? NSError else {
+      guard case SimpleConfigurationRepository.DataSourceError.emptyCatch(let underlying) = error,
+            let nsUnderlying = underlying as? NSError else {
         XCTFail("Invalid Error Propagated.")
         return
       }
-      print(underlyingNSError)
-      XCTAssertEqual(underlyingNSError.domain, "NSCocoaErrorDomain")
-      XCTAssertEqual(underlyingNSError.code, 260)
+      print(nsUnderlying)
+      XCTAssertEqual(nsUnderlying.domain, "NSCocoaErrorDomain")
+      XCTAssertEqual(nsUnderlying.code, 260)
     }
   }
   

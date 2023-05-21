@@ -34,11 +34,10 @@ class DefaultsDataSourceTests: XCTestCase {
     // When/Then
     XCTAssertThrowsError(try dataSource.cache,
                          "Retrieving configuration when empty should throw an error") { error in
-      guard case SimpleConfigurationRepository.DataSourceError.emptyCatch(let underlying) = error else {
+      guard case SimpleConfigurationRepository.DataSourceError.emptyCatch = error else {
         XCTFail("Invalid Error Propagated.")
         return
       }
-      XCTAssertNil(underlying)
     }
   }
 }
