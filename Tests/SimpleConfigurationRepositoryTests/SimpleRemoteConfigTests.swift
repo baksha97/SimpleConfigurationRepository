@@ -11,10 +11,110 @@ struct Config: ConfigurationModel {
 }
 
 final class SimpleRemoteConfigTests: XCTestCase {
-    func testExample() throws {
-//      let builder = Builder(fallback: Config(),
-//                            remoteLocation: URL(string: "www.mlb.com")!,
-//                            localSettings: .filestorage)
-//      let result = builder.build()
+  func testExample() throws {
+  }
+  
+  // Test cases
+  func testCurrent_WhenLocalDataSourceSucceeds_ReturnsLocalData() throws {
+    // Arrange
+    let localDataSource = MockConfigurationLocalDataSource<Config>()
+    localDataSource.persistData = Config() // Set local data
+    
+    let repository = ConfigurationRepositoryImpl(fallback: Config(),
+                                                 local: localDataSource,
+                                                 remote: MockConfigurationRemoteDataSource<Config>())
+    
+    // Act
+    let result = repository.current
+    
+    // Assert
+//    XCTAssert(result.isLocal)
+  }
+  
+  func testCurrent_WhenLocalDataSourceFails_ReturnsFallbackData() throws {
+    // Arrange
+    let localDataSource = MockConfigurationLocalDataSource<Config>()
+    localDataSource.persistCalled = true // Set local data persistence failure
+    
+    let repository = ConfigurationRepositoryImpl(fallback: Config(),
+                                                 local: localDataSource,
+                                                 remote: MockConfigurationRemoteDataSource<Config>())
+    
+    // Act
+    let result = repository.current
+    
+    // Assert
+//    XCTAssert(result.isFallback)
+  }
+  
+  func testUpdate_WhenRemoteDataSourceSucceeds_PersistsDataLocally() async throws {
+    // Arrange
+    let localDataSource = MockConfigurationLocalDataSource<Config>()
+    let remoteDataSource = MockConfigurationRemoteDataSource<Config>()
+    remoteDataSource.fetchData = Config() // Set remote data
+    
+    let repository = ConfigurationRepositoryImpl(fallback: Config(),
+                                                 local: localDataSource,
+                                                 remote: remoteDataSource)
+    
+    // Act
+    let result = try await repository.update()
+    
+    // Assert
+    XCTAssert(remoteDataSource.fetchCalled)
+    XCTAssert(localDataSource.persistCalled)
+//    XCTAssert(result.isRemote)
+  }
+  
+  func testUpdate_WhenRemoteDataSourceFails_ReturnsFallbackData() async throws {
+    // Arrange
+    let localDataSource = MockConfigurationLocalDataSource<Config>()
+    let remoteDataSource = MockConfigurationRemoteDataSource<Config>()
+    remoteDataSource.fetchCalled = true // Set remote data fetch failure
+    
+    let repository = ConfigurationRepositoryImpl(fallback: Config(),
+                                                 local: localDataSource,
+                                                 remote: remoteDataSource)
+    
+    // Act
+    let result = try await repository.update()
+    
+    // Assert
+    XCTAssert(remoteDataSource.fetchCalled)
+    XCTAssert(localDataSource.persistCalled)
+//    XCTAssert(result.isFallback)
+  }
+}
+
+
+// Mock objects
+class MockConfigurationLocalDataSource<Model: ConfigurationModel>: ConfigurationLocalDataSource {
+  func fetch() throws -> Model {
+//    fatalError()
+    throw NSError(domain: "t", code: -1)
+  }
+  
+  var persistCalled = false
+  var persistData: Model?
+  
+  func persist(_ data: Model) throws {
+    persistCalled = true
+    persistData = data
+  }
+}
+
+class MockConfigurationRemoteDataSource<Model: ConfigurationModel>: ConfigurationRemoteDatasource {
+  var url: URL { URL(string: "www.mlb.com")! }
+  
+  var fetchCalled = false
+  var fetchData: Model?
+  
+  func fetch() async throws -> Model {
+    fetchCalled = true
+    if let data = fetchData {
+      return data
+    } else {
+      throw NSError(domain: "", code: 0, userInfo: nil)
     }
+  }
 }

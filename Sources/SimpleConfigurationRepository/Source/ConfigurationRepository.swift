@@ -1,11 +1,6 @@
 import Foundation
 
-class ConfigurationRepositoryImpl<
-  Model: ConfigurationModel,
-  RemoteDataSource: ConfigurationRemoteDatasource,
-  LocalDataSource: ConfigurationLocalDataSource
->: ConfigurationRepository where RemoteDataSource.Configuration == Model,
-                                 LocalDataSource.Configuration == Model {
+class ConfigurationRepositoryImpl<Model: ConfigurationModel>: ConfigurationRepository {
 
   let fallback: Model
   
@@ -17,12 +12,12 @@ class ConfigurationRepositoryImpl<
     }
   }
   
-  private let local: LocalDataSource
-  private let remote: RemoteDataSource
+  private let local: any ConfigurationLocalDataSource<Model>
+  private let remote: any ConfigurationRemoteDatasource<Model>
   
   init(fallback: Model,
-       local: LocalDataSource,
-       remote: RemoteDataSource) {
+       local: any ConfigurationLocalDataSource<Model>,
+       remote: any ConfigurationRemoteDatasource<Model>) {
     self.fallback = fallback
     self.local = local
     self.remote = remote

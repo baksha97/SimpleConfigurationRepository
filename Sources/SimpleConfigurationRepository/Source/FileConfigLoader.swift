@@ -1,6 +1,6 @@
 import Foundation
 
-class FileConfigCacheable<Configuration: ConfigurationModel>: ConfigurationLocalDataSource {
+class FileConfigCacheable<Configuration>: ConfigurationLocalDataSource where Configuration: ConfigurationModel {
   
   private var cachedConfigUrl: URL {
     get throws {
