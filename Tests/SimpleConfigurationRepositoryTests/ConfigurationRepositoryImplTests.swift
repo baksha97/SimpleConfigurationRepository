@@ -6,9 +6,8 @@ fileprivate struct MockError: Error {}
 
 class ConfigurationRepositoryImplTests: XCTestCase {
   
-  let configurationModel: SampleConfiguration = .stub
-  
   func testCurrentReturnsLocalCacheWhenAvailable() {
+    let configurationModel: SampleConfiguration = .stub
     let localDataSource = MockLocalDataSource<SampleConfiguration>(mockCache: configurationModel, error: nil)
     let repository = ConfigurationRepositoryImpl(
       fallback: configurationModel,
@@ -27,6 +26,7 @@ class ConfigurationRepositoryImplTests: XCTestCase {
   }
 
   func testCurrentReturnsFallbackWhenCacheThrowsError() {
+    let configurationModel: SampleConfiguration = .stub
     let localDataSource = MockLocalDataSource<SampleConfiguration>(mockCache: configurationModel, error: MockError())
     let repository = ConfigurationRepositoryImpl(
       fallback: configurationModel,
@@ -46,6 +46,7 @@ class ConfigurationRepositoryImplTests: XCTestCase {
   }
 
   func testUpdateReturnsRemoteModel() async throws {
+    let configurationModel: SampleConfiguration = .stub
     let remoteDataSource = MockRemoteDatasource(model: configurationModel, error: nil)
 
     let repository = ConfigurationRepositoryImpl(
@@ -57,14 +58,16 @@ class ConfigurationRepositoryImplTests: XCTestCase {
     let result = try await repository.update()
 
     switch result {
-    case .remote(let model, _):
+    case .remote(let model, let error):
       XCTAssertEqual(model, configurationModel)
+      XCTAssertNil(error)
     default:
       XCTFail("Expected remote model, got something else")
     }
   }
 
   func testUpdateReturnsPersistenceError() async throws {
+    let configurationModel: SampleConfiguration = .stub
     let remoteDataSource = MockRemoteDatasource(model: configurationModel, error: nil)
     let localDataSource = MockLocalDataSource<SampleConfiguration>(mockCache: configurationModel, error: MockError())
 
@@ -119,8 +122,3 @@ struct MockRemoteDatasource<Model: ConfigurationModel>: RemoteDatasource {
     return model!
   }
 }
-         
-
-                                                                                                                                  
-                                                                                                                                  
-                                                                                                                                  
