@@ -2,7 +2,7 @@ import Foundation
 
 class FileDataSource<Configuration>: LocalDataSource where Configuration: ConfigurationModel {
   
-  private var cachedConfigUrl: URL {
+  var cachedConfigUrl: URL {
     get throws {
       guard let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
         throw SimpleConfigurationRepository.DataSourceError.missingDocumentsDirectory

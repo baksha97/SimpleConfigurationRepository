@@ -2,11 +2,12 @@ import XCTest
 import SimpleConfigurationRepository
 
 struct SampleConfiguration: ConfigurationModel {
+  
   var version: Int = 1
   var id: String = UUID().uuidString
   
-  static var identifier: String = "SampleConfiguration"
-  static var version: Int = 1
+  static var modelIdentifier: String = "SampleConfiguration"
+  static var modelVersion: Int = 1
   
   static let stub: Self = .init()
   

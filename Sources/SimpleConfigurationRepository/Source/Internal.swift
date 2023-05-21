@@ -48,6 +48,6 @@ extension ConfigurationModel {
   ///
   /// - Returns: A string in the format "identifier_version".
   static var exactModelIdentifier: String {
-    "\(identifier)_\(version)"
+    "\(modelIdentifier)_\(modelVersion)"
   }
 }

@@ -5,7 +5,7 @@ class DefaultsDataSource<Configuration: ConfigurationModel>: LocalDataSource {
   
   var cache: Configuration  {
     get throws {
-      guard let configData = storage.object(forKey: Configuration.identifier) as? Data else {
+      guard let configData = storage.object(forKey: Configuration.modelIdentifier) as? Data else {
         throw SimpleConfigurationRepository.DataSourceError.emptyCatch(underlying: nil)
       }
       return try JSONDecoder().decode(Configuration.self, from: configData)
@@ -18,6 +18,6 @@ class DefaultsDataSource<Configuration: ConfigurationModel>: LocalDataSource {
   
   func persist(_ config: Configuration) throws {
     let data = try JSONEncoder().encode(config)
-    storage.set(data, forKey: Configuration.identifier)
+    storage.set(data, forKey: Configuration.modelIdentifier)
   }
 }

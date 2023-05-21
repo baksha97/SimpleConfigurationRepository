@@ -71,9 +71,9 @@ public protocol ConfigurationModel: Codable & Identifiable & Equatable {
   var version: Int { get }
   
   /// Represents the identifier for the model class itself.
-  static var identifier: String { get }
+  static var modelIdentifier: String { get }
   
   /// Represents the version for the model contract itself.
   /// If you do not update this, we cannot identify the difference between failing to decode due to model changes versus corrupted data.
-  static var version: Int { get }
+  static var modelVersion: Int { get }
 }
