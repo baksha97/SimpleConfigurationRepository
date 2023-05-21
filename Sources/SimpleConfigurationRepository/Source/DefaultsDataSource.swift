@@ -1,6 +1,6 @@
 import Foundation
 
-class UserDefaultsConfigCacheable<Configuration: ConfigurationModel>: ConfigurationLocalDataSource {
+class DefaultsDataSource<Configuration: ConfigurationModel>: LocalDataSource {
   let storage: UserDefaults
   
   init(storage: UserDefaults) {
@@ -9,7 +9,7 @@ class UserDefaultsConfigCacheable<Configuration: ConfigurationModel>: Configurat
   
   func fetch() throws -> Configuration {
     guard let configData = storage.object(forKey: Configuration.identifier) as? Data else {
-      throw ConfigurationDataSourceError.emptyCatch(underlying: nil)
+      throw SimpleConfigurationRepository.DataSourceError.emptyCatch(underlying: nil)
     }
     return try JSONDecoder().decode(Configuration.self, from: configData)
   }

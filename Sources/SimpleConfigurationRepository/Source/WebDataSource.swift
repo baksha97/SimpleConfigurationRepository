@@ -1,6 +1,6 @@
 import Foundation
 
-class RemoteConfigFetcher<Configuration: ConfigurationModel>: ConfigurationRemoteDatasource {
+class WebDataSource<Configuration: ConfigurationModel>: RemoteDatasource {
   let url: URL
   
   init(url: URL) {

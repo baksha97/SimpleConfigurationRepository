@@ -88,7 +88,7 @@ final class SimpleRemoteConfigTests: XCTestCase {
 
 
 // Mock objects
-class MockConfigurationLocalDataSource<Model: ConfigurationModel>: ConfigurationLocalDataSource {
+class MockConfigurationLocalDataSource<Model: ConfigurationModel>: LocalDataSource {
   func fetch() throws -> Model {
 //    fatalError()
     throw NSError(domain: "t", code: -1)
@@ -103,16 +103,16 @@ class MockConfigurationLocalDataSource<Model: ConfigurationModel>: Configuration
   }
 }
 
-class MockConfigurationRemoteDataSource<Model: ConfigurationModel>: ConfigurationRemoteDatasource {
-  var url: URL { URL(string: "www.mlb.com")! }
+class MockConfigurationRemoteDataSource<Model: ConfigurationModel>: RemoteDatasource {
+  var url: URL { fatalError() }
   
   var fetchCalled = false
   var fetchData: Model?
   
   func fetch() async throws -> Model {
     fetchCalled = true
-    if let data = fetchData {
-      return data
+    if let fetchData {
+      return fetchData
     } else {
       throw NSError(domain: "", code: 0, userInfo: nil)
     }

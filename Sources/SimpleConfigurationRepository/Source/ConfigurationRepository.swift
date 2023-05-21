@@ -4,7 +4,7 @@ class ConfigurationRepositoryImpl<Model: ConfigurationModel>: ConfigurationRepos
 
   let fallback: Model
   
-  var current: ConfigurationResult<Model> {
+  var current: SimpleConfigurationRepository.Result<Model> {
     do {
       return try .local(local.fetch())
     } catch {
@@ -12,18 +12,18 @@ class ConfigurationRepositoryImpl<Model: ConfigurationModel>: ConfigurationRepos
     }
   }
   
-  private let local: any ConfigurationLocalDataSource<Model>
-  private let remote: any ConfigurationRemoteDatasource<Model>
+  private let local: any LocalDataSource<Model>
+  private let remote: any RemoteDatasource<Model>
   
   init(fallback: Model,
-       local: any ConfigurationLocalDataSource<Model>,
-       remote: any ConfigurationRemoteDatasource<Model>) {
+       local: any LocalDataSource<Model>,
+       remote: any RemoteDatasource<Model>) {
     self.fallback = fallback
     self.local = local
     self.remote = remote
   }
   
-  func update() async throws -> ConfigurationResult<Model> {
+  func update() async throws -> SimpleConfigurationRepository.Result<Model> {
     let update = try await remote.fetch()
     var persistenceError: Error? = nil
     do {
