@@ -12,7 +12,7 @@ public enum SimpleConfigurationRepository {
   /// - Parameters:
   ///   - settings: The settings used to configure the repository.
   /// - Returns: An instance of `ConfigurationRepository` corresponding to the settings.
-  public func build<M: ConfigurationModel>(settings: Settings<M>) -> any ConfigurationRepository<M> {
+  public static func build<M: ConfigurationModel>(settings: Settings<M>) -> any ConfigurationRepository<M> {
     settings.build()
   }
   
@@ -21,6 +21,12 @@ public enum SimpleConfigurationRepository {
     public let fallback: M
     public let mode: Storage
     public let location: URL
+    
+    public init(fallback: M, mode: SimpleConfigurationRepository.Settings<M>.Storage, location: URL) {
+      self.fallback = fallback
+      self.mode = mode
+      self.location = location
+    }
     
     /// Storage options for the configuration repository.
     public enum Storage {
