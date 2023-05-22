@@ -2,8 +2,9 @@ import SwiftUI
 import SimpleConfigurationRepository
 
 struct SimpleRepositoryView: View {
+  
   @StateObject
-  var viewModel = SimpleRepositoryViewModel()
+  var viewModel: SimpleRepositoryViewModel
   
   var body: some View {
     VStack {
@@ -15,8 +16,16 @@ struct SimpleRepositoryView: View {
   
   @ViewBuilder
   var result: some View {
-    if let configurationResult = viewModel.state.result {
-      Text(String(describing: configurationResult))
+    VStack {
+      if let configurationResult = viewModel.state.result {
+        Text(String(describing: configurationResult))
+      }
+      if viewModel.state.hasResultAndError {
+        Divider()
+      }
+      if let error = viewModel.state.error {
+        Text(String(describing: error))
+      }
     }
   }
   
@@ -36,6 +45,6 @@ struct SimpleRepositoryView: View {
 
 struct SimpleRepositoryView_Previews: PreviewProvider {
   static var previews: some View {
-    SimpleRepositoryView()
+    SimpleRepositoryView(viewModel: .init(mode: .fileManager))
   }
 }

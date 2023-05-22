@@ -13,6 +13,10 @@ struct SampleConfiguration: SimpleConfigurationRepository.Model {
 struct ViewState {
   var result: SimpleConfigurationRepository.Result<SampleConfiguration>? = nil
   var error: Error? = nil
+  
+  var hasResultAndError: Bool {
+    result != nil && error != nil
+  }
 }
 
 @MainActor
@@ -20,11 +24,11 @@ class SimpleRepositoryViewModel: ObservableObject {
   @Published var state: ViewState = .init()
   private let repository: any ConfigurationRepository<SampleConfiguration>
   
-  init() {
-    repository = SimpleConfigurationRepository.build(
+  init(mode: SimpleConfigurationRepository.Settings<SampleConfiguration>.Storage) {
+    self.repository = SimpleConfigurationRepository.build(
       settings: .init(
         fallback: .fallback,
-        mode: .userDefaults(.standard),
+        mode: mode,
         location: .bucket
       )
     )

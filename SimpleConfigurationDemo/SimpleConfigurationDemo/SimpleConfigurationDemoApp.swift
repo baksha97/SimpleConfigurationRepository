@@ -11,7 +11,15 @@ import SwiftUI
 struct SimpleConfigurationDemoApp: App {
   var body: some Scene {
     WindowGroup {
-      SimpleRepositoryView()
+      VStack {
+        Text("File Manager:")
+          .bold()
+        SimpleRepositoryView(viewModel: .init(mode: .fileManager))
+        Divider()
+        Text("User Defaults:")
+          .bold()
+        SimpleRepositoryView(viewModel: .init(mode: .userDefaults(.standard)))
+      }
     }
   }
 }
