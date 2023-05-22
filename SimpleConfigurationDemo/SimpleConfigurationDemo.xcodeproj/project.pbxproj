@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1F78C65F2A1BC6E400E9C5D0 /* SimpleConfigurationDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78C65E2A1BC6E400E9C5D0 /* SimpleConfigurationDemoApp.swift */; };
-		1F78C6612A1BC6E400E9C5D0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78C6602A1BC6E400E9C5D0 /* ContentView.swift */; };
 		1F78C6632A1BC6E600E9C5D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F78C6622A1BC6E600E9C5D0 /* Assets.xcassets */; };
 		1F78C6662A1BC6E600E9C5D0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F78C6652A1BC6E600E9C5D0 /* Preview Assets.xcassets */; };
 		1F78C6902A1BC74A00E9C5D0 /* SimpleRepositoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78C68F2A1BC74A00E9C5D0 /* SimpleRepositoryView.swift */; };
 		1F78C6952A1BC9C300E9C5D0 /* SimpleConfigurationRepository in Frameworks */ = {isa = PBXBuildFile; productRef = 1F78C6942A1BC9C300E9C5D0 /* SimpleConfigurationRepository */; };
+		1F78C6992A1C16DA00E9C5D0 /* SimpleRepositoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F78C6982A1C16DA00E9C5D0 /* SimpleRepositoryViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,13 +35,13 @@
 /* Begin PBXFileReference section */
 		1F78C65B2A1BC6E400E9C5D0 /* SimpleConfigurationDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleConfigurationDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F78C65E2A1BC6E400E9C5D0 /* SimpleConfigurationDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleConfigurationDemoApp.swift; sourceTree = "<group>"; };
-		1F78C6602A1BC6E400E9C5D0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1F78C6622A1BC6E600E9C5D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F78C6652A1BC6E600E9C5D0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1F78C6702A1BC6E600E9C5D0 /* SimpleConfigurationDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleConfigurationDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F78C67A2A1BC6E600E9C5D0 /* SimpleConfigurationDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SimpleConfigurationDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F78C68F2A1BC74A00E9C5D0 /* SimpleRepositoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRepositoryView.swift; sourceTree = "<group>"; };
 		1F78C6922A1BC91B00E9C5D0 /* SimpleConfigurationRepository */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SimpleConfigurationRepository; path = ..; sourceTree = "<group>"; };
+		1F78C6982A1C16DA00E9C5D0 /* SimpleRepositoryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SimpleRepositoryViewModel.swift; path = SimpleConfigurationDemo/SimpleRepositoryViewModel.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,9 +93,9 @@
 		1F78C65D2A1BC6E400E9C5D0 /* SimpleConfigurationDemo */ = {
 			isa = PBXGroup;
 			children = (
+				1F78C6982A1C16DA00E9C5D0 /* SimpleRepositoryViewModel.swift */,
 				1F78C65E2A1BC6E400E9C5D0 /* SimpleConfigurationDemoApp.swift */,
 				1F78C68F2A1BC74A00E9C5D0 /* SimpleRepositoryView.swift */,
-				1F78C6602A1BC6E400E9C5D0 /* ContentView.swift */,
 				1F78C6622A1BC6E600E9C5D0 /* Assets.xcassets */,
 				1F78C6642A1BC6E600E9C5D0 /* Preview Content */,
 			);
@@ -258,7 +258,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F78C6612A1BC6E400E9C5D0 /* ContentView.swift in Sources */,
+				1F78C6992A1C16DA00E9C5D0 /* SimpleRepositoryViewModel.swift in Sources */,
 				1F78C6902A1BC74A00E9C5D0 /* SimpleRepositoryView.swift in Sources */,
 				1F78C65F2A1BC6E400E9C5D0 /* SimpleConfigurationDemoApp.swift in Sources */,
 			);
