@@ -26,7 +26,7 @@ To use the Simple Configuration Repository API, you need to follow these steps:
 
 1. Implement a configuration model that conforms to the `ConfigurationModel` protocol. The model should include properties for versioning and identification.
 
-2. Create an instance of the `SimpleConfigurationRepository.Settings` struct, providing the necessary settings for configuring the repository. These settings include a fallback configuration, a storage mode, and a location for storing the configuration data.
+2. Create an instance of the `SimpleConfigurationRepository.Settings` struct, providing the necessary settings for configuring the repository. These settings include a fallback configuration, local storage options, and remote storage options.
 
 3. Use the `SimpleConfigurationRepository.build(settings:)` method to build an instance of the `ConfigurationRepository` corresponding to the provided settings.
 
@@ -46,8 +46,8 @@ struct MyConfigurationModel: ConfigurationModel {
 // Create settings for the configuration repository
 let settings = SimpleConfigurationRepository.Settings(
     fallback: MyConfigurationModel(version: 1),
-    mode: .fileManager,
-    location: URL(string: "www.domain.com/config.json")!
+    local: .fileManager,
+    remote: .session(URLSession.shared, location: URL(string: "https://example.com/config.json")!)
 )
 
 // Build the configuration repository
@@ -111,9 +111,7 @@ This protocol defines the requirements for a configuration model.
 
 ## Error Handling
 
-The Simple Configuration Repository API includes some predefined error types for handling errors that can
-
- occur in the data source layer.
+The Simple Configuration Repository API includes some predefined error types for handling errors that can occur in the datasource layer.
 
 - `DataSourceError.missingDocumentsDirectory`: Indicates that the documents directory is missing.
 - `DataSourceError.emptyCatch`: Indicates an empty catch block with an optional underlying error.
