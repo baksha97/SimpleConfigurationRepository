@@ -51,17 +51,20 @@ public enum SimpleConfigurationRepository {
     case local(M)
     case remote(M, silentPersistenceFailure: Error?)
     case fallback(M, cause: Error)
-    
-    /// Returns the model associated with the result.
-    var model: M {
-      switch self {
-      case .local(let value):
-        return value
-      case .remote(let value, _):
-        return value
-      case .fallback(let value, _):
-        return value
-      }
+  }
+}
+
+extension SimpleConfigurationRepository.Result {
+  /// Returns the model associated with the result.
+  /// In some situations, you may override this extension property so that you can log the events on model access.
+  var model: M {
+    switch self {
+    case .local(let value):
+      return value
+    case .remote(let value, _):
+      return value
+    case .fallback(let value, _):
+      return value
     }
   }
 }
