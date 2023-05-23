@@ -11,17 +11,22 @@ struct SimpleConfigurationDemoApp: App {
   
   var body: some Scene {
     WindowGroup {
-      VStack {
-        Picker(selection: $selectedTab, label: Text("Tabs")) {
-          Text("File Manager")
-            .tag(Tab.fileManager)
-          Text("User Defaults")
-            .tag(Tab.defaults)
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding()
-        tab
+      main
+    }
+  }
+  
+  @ViewBuilder
+  var main: some View {
+    VStack {
+      Picker(selection: $selectedTab, label: Text("Tabs")) {
+        Text("File Manager")
+          .tag(Tab.fileManager)
+        Text("User Defaults")
+          .tag(Tab.defaults)
       }
+      .pickerStyle(SegmentedPickerStyle())
+      .padding()
+      tab
     }
   }
   
