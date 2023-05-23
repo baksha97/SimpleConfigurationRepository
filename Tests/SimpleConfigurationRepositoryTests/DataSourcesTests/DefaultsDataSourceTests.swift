@@ -28,7 +28,7 @@ class DefaultsDataSourceTests: XCTestCase {
   func testRetrieveConfigurationWhenEmpty() {
     XCTAssertThrowsError(try dataSource.cache,
                          "Retrieving configuration when empty should throw an error") { error in
-      guard case SimpleConfigurationRepository.DataSourceError.emptyCatch = error else {
+      guard case SimpleConfigurationRepository.DataSourceError.emptyCache = error else {
         XCTFail("Invalid Error Propagated.")
         return
       }

@@ -43,7 +43,7 @@ public enum SimpleConfigurationRepository {
   /// Errors that can occur in the data source layer.
   public enum DataSourceError: Error {
     case missingDocumentsDirectory
-    case emptyCatch(underlying: Error?)
+    case emptyCache(underlying: Error?)
   }
   
   /// Results that can be returned from the configuration repository.

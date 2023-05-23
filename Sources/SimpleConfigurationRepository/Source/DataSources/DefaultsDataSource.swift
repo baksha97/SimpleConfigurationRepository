@@ -6,7 +6,7 @@ class DefaultsDataSource<Configuration: ConfigurationModel>: LocalDataSource {
   var cache: Configuration  {
     get throws {
       guard let configData = storage.object(forKey: Configuration.modelIdentifier) as? Data else {
-        throw SimpleConfigurationRepository.DataSourceError.emptyCatch(underlying: nil)
+        throw SimpleConfigurationRepository.DataSourceError.emptyCache(underlying: nil)
       }
       return try JSONDecoder().decode(Configuration.self, from: configData)
     }

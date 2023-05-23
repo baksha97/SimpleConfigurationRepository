@@ -26,7 +26,7 @@ class FileDataSourceTests: XCTestCase {
     let dataSource = FileDataSource<SampleConfiguration>()
     XCTAssertThrowsError(try dataSource.cache,
                          "Retrieving configuration when empty should throw an error") { error in
-      guard case SimpleConfigurationRepository.DataSourceError.emptyCatch(let underlying) = error,
+      guard case SimpleConfigurationRepository.DataSourceError.emptyCache(let underlying) = error,
             let nsUnderlying = underlying as? NSError else {
         XCTFail("Invalid Error Propagated.")
         return

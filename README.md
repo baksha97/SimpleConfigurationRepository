@@ -115,7 +115,7 @@ This protocol defines the requirements for a configuration model.
 The Simple Configuration Repository API includes some predefined error types for handling errors that can occur in the datasource layer.
 
 - `DataSourceError.missingDocumentsDirectory`: Indicates that the documents directory is missing.
-- `DataSourceError.emptyCatch`: Indicates an empty catch block with an optional underlying error.
+- `DataSourceError.emptyCache`: Indicates an empty cache with an optional underlying error.
 
 When working with the API, make sure to handle these errors appropriately to provide a robust and reliable configuration management system.
 

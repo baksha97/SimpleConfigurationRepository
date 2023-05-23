@@ -18,7 +18,7 @@ class FileDataSource<Configuration>: LocalDataSource where Configuration: Config
         let data = try Data(contentsOf: url)
         return data
       } catch {
-        throw SimpleConfigurationRepository.DataSourceError.emptyCatch(underlying: error)
+        throw SimpleConfigurationRepository.DataSourceError.emptyCache(underlying: error)
       }
     }
   }
