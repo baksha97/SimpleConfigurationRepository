@@ -19,7 +19,6 @@ struct ViewState {
   }
 }
 
-@MainActor
 class SimpleRepositoryViewModel: ObservableObject {
   @Published var state: ViewState = .init()
   private let repository: any ConfigurationRepository<SampleConfiguration>
@@ -38,6 +37,8 @@ class SimpleRepositoryViewModel: ObservableObject {
     state.result = repository.current
   }
   
+  
+  @MainActor
   func update() {
     Task {
       do {
