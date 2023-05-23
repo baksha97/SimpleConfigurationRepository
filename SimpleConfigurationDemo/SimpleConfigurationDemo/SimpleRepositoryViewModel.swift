@@ -12,10 +12,10 @@ struct SampleConfiguration: SimpleConfigurationRepository.Model {
 
 struct ViewState {
   var result: SimpleConfigurationRepository.Result<SampleConfiguration>? = nil
-  var error: Error? = nil
+  var updateError: Error? = nil
   
   var hasResultAndError: Bool {
-    result != nil && error != nil
+    result != nil && updateError != nil
   }
 }
 
@@ -43,7 +43,7 @@ class SimpleRepositoryViewModel: ObservableObject {
       do {
         state.result = try await repository.update()
       } catch {
-        state.error = error
+        state.updateError = error
       }
     }
   }
