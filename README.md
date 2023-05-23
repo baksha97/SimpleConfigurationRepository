@@ -38,6 +38,7 @@ Here's an example of how to use the Simple Configuration Repository API:
 // Define a configuration model
 struct MyConfigurationModel: ConfigurationModel {
     var version: Int
+    var id: Int { version }
     static var modelIdentifier: String = "MyConfiguration"
     static var modelVersion: Int = 1
     // Include other properties and methods as needed
