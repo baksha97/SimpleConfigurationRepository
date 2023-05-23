@@ -115,10 +115,12 @@ struct MockRemoteDatasource<Model: ConfigurationModel>: RemoteDatasource {
   let model: Model?
   let error: Error?
   
-  func fetch() async throws -> Model {
-    if let error {
-      throw error
+  var latest: Model {
+    get async throws {
+      if let error {
+        throw error
+      }
+      return model!
     }
-    return model!
   }
 }

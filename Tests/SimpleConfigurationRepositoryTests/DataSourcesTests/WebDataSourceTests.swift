@@ -10,7 +10,7 @@ final class WebDataSourceTests: XCTestCase {
     let session = MockSession(result: .success(model.data))
     let url: URL = .init(string: "www.mlb.com/useless-url/config.json")!
     let dataSource = WebDataSource<SampleConfiguration>(url: url, session: session)
-    let actualConfig = try await dataSource.fetch()
+    let actualConfig = try await dataSource.latest
     
     // Then
     XCTAssertEqual(actualConfig, model)
@@ -21,7 +21,7 @@ final class WebDataSourceTests: XCTestCase {
     let url: URL = .init(string: "www.mlb.com/useless-url/config.json")!
     let dataSource = WebDataSource<SampleConfiguration>(url: url, session: session)
     do {
-      let _ = try await dataSource.fetch()
+      let _ = try await dataSource.latest
       XCTFail("Expected an error")
     } catch {
       // Then
