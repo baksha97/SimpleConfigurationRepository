@@ -24,7 +24,7 @@ class ConfigurationRepositoryImpl<Model: ConfigurationModel>: ConfigurationRepos
   }
   
   func update() async throws -> SimpleConfigurationRepository.Result<Model> {
-    let update = try await remote.fetch()
+    let update = try await remote.latest
     return .remote(update, silentPersistenceFailure: silentPersist(update))
   }
   

@@ -19,20 +19,25 @@ public enum SimpleConfigurationRepository {
   /// Settings for configuring the configuration repository.
   public struct Settings<M: ConfigurationModel> {
     public let fallback: M
-    public let mode: Storage
-    public let location: URL
+    public let local: LocalStorage
+    public let remote: RemoteStorage
     
-    public init(fallback: M, mode: SimpleConfigurationRepository.Settings<M>.Storage, location: URL) {
+    public init(fallback: M, local: LocalStorage, remote: RemoteStorage) {
       self.fallback = fallback
-      self.mode = mode
-      self.location = location
+      self.local = local
+      self.remote = remote
     }
-    
-    /// Storage options for the configuration repository.
-    public enum Storage {
-      case fileManager
-      case userDefaults(UserDefaults)
-    }
+  }
+  
+  /// Local Storage options for the configuration repository.
+  public enum LocalStorage {
+    case fileManager
+    case userDefaults(UserDefaults)
+  }
+  
+  /// Remote Storage options for the configuration repository.
+  public enum RemoteStorage {
+    case session(URLSession, location: URL)
   }
   
   /// Errors that can occur in the data source layer.

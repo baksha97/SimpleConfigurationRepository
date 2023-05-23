@@ -24,12 +24,12 @@ class SimpleRepositoryViewModel: ObservableObject {
   @Published var state: ViewState = .init()
   private let repository: any ConfigurationRepository<SampleConfiguration>
   
-  init(mode: SimpleConfigurationRepository.Settings<SampleConfiguration>.Storage) {
+  init(mode: SimpleConfigurationRepository.LocalStorage) {
     self.repository = SimpleConfigurationRepository.build(
       settings: .init(
         fallback: .fallback,
-        mode: mode,
-        location: .bucket
+        local: mode,
+        remote: .session(.shared, location: .bucket)
       )
     )
   }

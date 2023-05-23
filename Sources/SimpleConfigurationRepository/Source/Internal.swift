@@ -14,7 +14,7 @@ extension SimpleConfigurationRepository.Settings {
   /// Builds and returns a local data source based on the current mode.
   /// - Returns: An instance of `LocalDataSource` corresponding to the mode.
   private func build() -> any LocalDataSource<M> {
-    switch mode {
+    switch local {
     case .fileManager:
       return FileDataSource()
     case .userDefaults(let userDefaults):
@@ -25,7 +25,10 @@ extension SimpleConfigurationRepository.Settings {
   /// Builds and returns a remote data source using the specified URL location.
   /// - Returns: An instance of `RemoteDatasource` with the provided URL.
   private func build() -> any RemoteDatasource<M> {
-    WebDataSource(url: location)
+    switch remote {
+    case .session(let session, let location):
+      return WebDataSource(url: location, session: session)
+    }
   }
 }
 
@@ -38,7 +41,7 @@ protocol LocalDataSource<Configuration> where Configuration: ConfigurationModel 
 protocol RemoteDatasource<Configuration> where Configuration: ConfigurationModel {
   associatedtype Configuration
   var url: URL { get }
-  func fetch() async throws -> Configuration
+  var latest: Configuration { get async throws }
 }
 
 extension ConfigurationModel {

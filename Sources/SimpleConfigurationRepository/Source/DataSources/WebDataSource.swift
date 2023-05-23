@@ -3,15 +3,18 @@ import Foundation
 class WebDataSource<Configuration: ConfigurationModel>: RemoteDatasource {
   let url: URL
   let session: NetworkSession
-  init(url: URL, session: NetworkSession = URLSession.shared) {
-    self.url = url
-    self.session = session
+  
+  var latest: Configuration {
+    get async throws {
+      let (data, _) = try await session.data(from: url)
+      let config = try JSONDecoder().decode(Configuration.self, from: data)
+      return config
+    }
   }
   
-  func fetch() async throws -> Configuration {
-    let (data, _) = try await session.data(from: url)
-    let config = try JSONDecoder().decode(Configuration.self, from: data)
-    return config
+  init(url: URL, session: NetworkSession) {
+    self.url = url
+    self.session = session
   }
 }
 
